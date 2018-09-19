@@ -15,8 +15,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Server {
-    private static final String ADDRESS = "localhost";
-    private static final int PORT = 4444;
+    private static final int PORT = 7777;
     private static Server server;
 
     private HashMap<ChannelId, User> users;
@@ -34,15 +33,14 @@ public class Server {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(group);
             serverBootstrap.channel(NioServerSocketChannel.class);
-            serverBootstrap.localAddress(new InetSocketAddress(ADDRESS, PORT));
 
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 protected void initChannel(SocketChannel socketChannel) {
                     socketChannel.pipeline().addLast(new ServerHandler(server));
                 }
             });
-            ChannelFuture channelFuture = serverBootstrap.bind().sync();
-            System.out.println("Успешный запуск!");
+            ChannelFuture channelFuture = serverBootstrap.bind(PORT).sync();
+            System.out.println("Успешный запуск! Порт: " + PORT);
             System.out.println("select [name] - выбрать пользователя для работы с ним");
             System.out.println("exit - выйти из режим работы с пользователем");
             System.out.println("all - список всех пользователей онлайн");
@@ -62,6 +60,14 @@ public class Server {
 
     public HashMap<ChannelId, User> getUsers() {
         return users;
+    }
+
+    public User getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(User user) {
+        selectedUser = user;
     }
 
     private void initConsoleReader() {

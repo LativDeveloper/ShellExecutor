@@ -22,6 +22,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("Отключение: " + ctx.channel().remoteAddress());
         User user = server.getUsers().get(ctx.channel().id());
         if (user != null) server.getUsers().remove(ctx.channel().id());
+        if (user == server.getSelectedUser()) server.setSelectedUser(null);
     }
 
     @Override

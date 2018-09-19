@@ -12,8 +12,8 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import java.net.InetSocketAddress;
 
 public class Client {
-    private static final String ADDRESS = "localhost";
-    private static final int PORT = 4444;
+    private static final String ADDRESS = "rage-rp.ru";
+    private static final int PORT = 7777;
     public static final int WAIT_TIME_MILLS = 5000;
     private static Client client;
 
