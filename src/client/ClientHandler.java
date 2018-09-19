@@ -49,7 +49,14 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
-        ctx.close();
+
+        System.out.println("Ошибка на клиенте! Ожидание: " + Client.WAIT_TIME_MILLS + " ms");
+        try {
+            Thread.sleep(Client.WAIT_TIME_MILLS);
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
+        client.connect();
     }
 
     private void receivedMessageHandler(String message) {

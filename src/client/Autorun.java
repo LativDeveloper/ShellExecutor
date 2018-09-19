@@ -18,24 +18,32 @@ public class Autorun {
     private static final String OS_NAME = System.getProperty("os.name").toLowerCase();
 
     public void unistall() {
-        serviceStop();
-        File service = new File(TARGET_SERVICE_PATH);
-        File script = new File(TARGET_SCRIPT_PATH);
-        File jar = new File(TARGET_JAR_PATH + JAR_NAME);
+        boolean isWindows = OS_NAME.startsWith("windows");
+        if (!isWindows) {
+            System.out.println("Удаление... (linux)");
+            serviceStop();
+            File service = new File(TARGET_SERVICE_PATH);
+            File script = new File(TARGET_SCRIPT_PATH);
+            File jar = new File(TARGET_JAR_PATH + JAR_NAME);
 
-        if (service.delete()) System.out.println(service.getName() + " удален!");
-        else System.out.println("Ошибка удаления " + service.getName());
+            if (service.delete()) System.out.println(service.getName() + " удален!");
+            else System.out.println("Ошибка удаления " + service.getName());
 
-        if (script.delete()) System.out.println(script.getName() + " удален!");
-        else System.out.println("Ошибка удаления " + script.getName());
+            if (script.delete()) System.out.println(script.getName() + " удален!");
+            else System.out.println("Ошибка удаления " + script.getName());
 
-        if (jar.delete()) System.out.println(jar.getName() + " удален!");
-        else System.out.println("Ошибка удаления " + jar.getName());
+            if (jar.delete()) System.out.println(jar.getName() + " удален!");
+            else System.out.println("Ошибка удаления " + jar.getName());
+        } else {
+            System.out.println("Удаление для windows в разработке...");
+        }
     }
 
     public void bind() {
         boolean isWindows = OS_NAME.startsWith("windows");
         if (!isWindows) {
+            unistall();
+
             System.out.println("Установка на автозапуск... (linux)");
             writeServiceFile();
             writeScriptFile();

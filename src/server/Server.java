@@ -42,7 +42,7 @@ public class Server {
             ChannelFuture channelFuture = serverBootstrap.bind(PORT).sync();
             System.out.println("Успешный запуск! Порт: " + PORT);
             System.out.println("select [name] - выбрать пользователя для работы с ним");
-            System.out.println("exit - выйти из режим работы с пользователем");
+            System.out.println("exit - выйти из режима работы с пользователем");
             System.out.println("all - список всех пользователей онлайн");
             initConsoleReader();
             channelFuture.channel().closeFuture().sync();
