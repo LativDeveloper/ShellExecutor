@@ -2,6 +2,8 @@ package client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
@@ -41,7 +43,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf = (ByteBuf) msg;
         String received = byteBuf.toString(CharsetUtil.UTF_8);
 //        Query query = Query.fromJson(received);
-        System.out.println("Client received: " + received);
 
         receivedMessageHandler(received);
     }
@@ -60,11 +61,17 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     }
 
     private void receivedMessageHandler(String message) {
+        if (message.equals("ping")) {
+            sendMessage("pong");
+            return;
+        }
+        System.out.println("Client received: " + message);
         ShellExecutor executor = new ShellExecutor();
         executor.executeCommand(message, this);
     }
 
     public void sendMessage(String message) {
-        ctx.writeAndFlush(Unpooled.copiedBuffer(message, CharsetUtil.UTF_8));
+        ChannelFuture future = ctx.writeAndFlush(Unpooled.copiedBuffer(message, CharsetUtil.UTF_8));
+        future.addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
     }
 }

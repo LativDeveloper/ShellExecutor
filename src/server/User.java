@@ -1,6 +1,8 @@
 package server;
 
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
 import io.netty.util.CharsetUtil;
@@ -27,7 +29,8 @@ public class User {
     }
 
     public void sendMessage(String message) {
-        ctx.writeAndFlush(Unpooled.copiedBuffer(message, CharsetUtil.UTF_8));
+        ChannelFuture future = ctx.writeAndFlush(Unpooled.copiedBuffer(message, CharsetUtil.UTF_8));
+        future.addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
     }
 
     @Override

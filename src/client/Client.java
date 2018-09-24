@@ -13,6 +13,7 @@ import java.net.InetSocketAddress;
 
 public class Client {
     private static final String ADDRESS = "rage-rp.ru";
+//    private static final String ADDRESS = "localhost";
     private static final int PORT = 7777;
     public static final int WAIT_TIME_MILLS = 5000;
     private static Client client;

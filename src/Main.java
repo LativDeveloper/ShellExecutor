@@ -1,4 +1,4 @@
-import client.Autorun;
+import utils.Autorun;
 import client.Client;
 import server.Server;
 
